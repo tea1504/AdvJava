@@ -3,6 +3,12 @@ package advjava.bean;
 public class Phong {
 	private String MaPhong;
 	private String TenPhong;
+	public Phong(String maPhong, String tenPhong, int soMay) {
+		super();
+		MaPhong = maPhong;
+		TenPhong = tenPhong;
+		SoMay = soMay;
+	}
 	private int SoMay;
 	public String getMaPhong() {
 		return MaPhong;
@@ -21,5 +27,10 @@ public class Phong {
 	}
 	public void setSoMay(int soMay) {
 		SoMay = soMay;
+	}
+	@Override
+	public String toString() {
+		// TODO Auto-generated method stub
+		return getMaPhong() + "\t" + getTenPhong() + "\t" + getSoMay();
 	}
 }
