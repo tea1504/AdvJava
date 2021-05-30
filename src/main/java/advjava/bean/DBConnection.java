@@ -73,4 +73,16 @@ public class DBConnection {
 		}
 		return null;
 	}
+	public int update(String query) {
+		PreparedStatement ps;
+		int r;
+		try {
+			ps = conn.prepareStatement(query);
+			r = ps.executeUpdate();
+			return r;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return -1;
+	}
 }

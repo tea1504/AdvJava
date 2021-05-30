@@ -51,5 +51,21 @@ public class LopDAO {
 		conn.closeConnection();
 		return list;
 	}
-	
+
+	public int ThemLop(Lop l) {
+		String query = "insert into lop (malop, magiangvien, tenlop, sisolop) values ('" + l.getMaLop() + "', '"
+				+ l.getMaGV() + "', N'" + l.getTenLop() + "'," + l.getSiSoLop() + ")";
+		conn.getConnection();
+		int r = conn.update(query);
+		conn.closeConnection();
+		return r;
+	}
+
+	public int XoaLop(Lop l) {
+		String query = "delete from lop where malop='" + l.getMaLop() + "'";
+		conn.getConnection();
+		int r = conn.update(query);
+		conn.closeConnection();
+		return r;
+	}
 }
