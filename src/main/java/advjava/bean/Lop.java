@@ -40,12 +40,15 @@ public class Lop {
 		SiSoLop = siSoLop;
 		MaGV = maGV;
 	}
+	public Lop() {
+		// TODO Auto-generated constructor stub
+	}
 	public void setTenLop(String tenLop) {
 		TenLop = tenLop;
 	}
 	@Override
 	public String toString() {
 		// TODO Auto-generated method stub
-		return getMaLop() + "\t" + getTenLop() + "\t" + getSiSoLop();
+		return getMaLop() + " | " + getTenLop();
 	}
 }

@@ -36,6 +36,6 @@ public class GiangVien {
 	@Override
 	public String toString() {
 		// TODO Auto-generated method stub
-		return getMa() + "\t" + getTen();
+		return getMa() + " | " + getTen();
 	}
 }
