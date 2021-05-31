@@ -1,6 +1,5 @@
 package advjava.view.lop;
 
-import java.awt.Color;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -25,9 +24,9 @@ public class ThongTin extends JPanel implements ActionListener {
 	JLabel lblTenLop = new JLabel("Tên lớp:");
 	JLabel lblGiaoVien = new JLabel("Giảng viên dạy:");
 	JLabel lblSiSo = new JLabel("Sỉ số lớp:");
-	JTextField txtMaLop = new JTextField(20);
-	JTextField txtTenLop = new JTextField(20);
-	JTextField txtSiSo = new JTextField(20);
+	JTextField txtMaLop = new JTextField(10);
+	JTextField txtTenLop = new JTextField(10);
+	JTextField txtSiSo = new JTextField(10);
 	JComboBox<GiangVien> cboGiangVien = new JComboBox<GiangVien>();
 
 	public ThongTin() {
@@ -36,7 +35,6 @@ public class ThongTin extends JPanel implements ActionListener {
 		setup();
 		setLayout(new GridBagLayout());
 		setBorder(new TitledBorder(BorderFactory.createTitledBorder("Nhập liệu")));
-		((TitledBorder)this.getBorder()).setTitleFont(new Font("Arial", Font.PLAIN, 18));
 		GridBagConstraints gbc = new GridBagConstraints();
 		gbc.gridx = 0;
 		gbc.gridy = 0;
@@ -87,6 +85,19 @@ public class ThongTin extends JPanel implements ActionListener {
 		txtMaLop.setEditable(false);
 		txtTenLop.setEditable(false);
 		txtSiSo.setEditable(false);
+	}
+	public void DKKT() {
+		DKKS();
+		txtMaLop.setEditable(true);
+		txtMaLop.setText("");
+		txtTenLop.setText("");
+		txtSiSo.setText("");
+		cboGiangVien.setSelectedIndex(0);
+	}
+	public void DKKS() {
+		txtTenLop.setEditable(true);
+		txtSiSo.setEditable(true);
+		cboGiangVien.setEnabled(true);
 	}
 	public void setup() {
 		 lblMaLop.setFont(new Font("Arial", Font.BOLD, 18));

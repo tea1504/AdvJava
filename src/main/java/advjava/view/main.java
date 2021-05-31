@@ -12,7 +12,7 @@ public class main {
 			
 			@Override
 			public void run() {
-				new LopGUI();
+				new App();
 			}
 		});
 	}
