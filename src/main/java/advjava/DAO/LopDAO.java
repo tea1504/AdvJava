@@ -61,6 +61,15 @@ public class LopDAO {
 		return r;
 	}
 
+	public int SuaLop(Lop l) {
+		String query = "update lop set magiangvien='" + l.getMaGV() + "', tenlop=N'" + l.getTenLop() + "', sisolop="
+				+ l.getSiSoLop() + " where malop='" + l.getMaLop() + "'";
+		conn.getConnection();
+		int r = conn.update(query);
+		conn.closeConnection();
+		return r;
+	}
+
 	public int XoaLop(Lop l) {
 		String query = "delete from lop where malop='" + l.getMaLop() + "'";
 		conn.getConnection();

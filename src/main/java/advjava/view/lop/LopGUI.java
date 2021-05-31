@@ -19,9 +19,8 @@ public class LopGUI extends JFrame {
 	public LopGUI() {
 		thongtin = new ThongTin();
 		table = new Table(thongtin);
-		dk = new dieukhien(thongtin, table);
+		dk = new dieukhien(thongtin, table, this);
 		title.setFont(new Font("Arial", Font.BOLD, 50));
-		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setSize(1200, 500);
 		getContentPane().setLayout(new GridBagLayout());
 		GridBagConstraints gbc = new GridBagConstraints();

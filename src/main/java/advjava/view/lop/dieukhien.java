@@ -30,11 +30,13 @@ public class dieukhien extends JPanel implements ActionListener {
 	private JButton btnThoat = new JButton("Thoát");
 	private final ThongTin tt;
 	private final Table tb;
+	private final LopGUI lop;
 	private boolean them = false;
 
-	public dieukhien(ThongTin _tt, Table _tb) {
+	public dieukhien(ThongTin _tt, Table _tb, LopGUI l) {
 		tt = _tt;
 		tb = _tb;
+		lop = l;
 		setup();
 		GanDL();
 		setLayout(new GridBagLayout());
@@ -52,6 +54,8 @@ public class dieukhien extends JPanel implements ActionListener {
 		add(btnLuu, gbc);
 		gbc.gridx++;
 		add(btnHuy, gbc);
+		gbc.gridx++;
+		add(btnThoat, gbc);
 		DKKBT();
 	}
 
@@ -100,6 +104,15 @@ public class dieukhien extends JPanel implements ActionListener {
 		btnLuu.addActionListener(this);
 		icon = new ImageIcon(this.getClass().getResource("luu.png"));
 		btnLuu.setIcon(icon);
+
+		btnThoat.setFont(new Font("Arial", Font.BOLD, 24));
+		btnThoat.setBackground(new Color(9, 132, 227));
+		btnThoat.setBorderPainted(false);
+		btnThoat.setFocusable(false);
+		btnThoat.setForeground(Color.white);
+		btnThoat.addActionListener(this);
+		icon = new ImageIcon(this.getClass().getResource("close.png"));
+		btnThoat.setIcon(icon);
 	}
 
 	@Override
@@ -124,6 +137,12 @@ public class dieukhien extends JPanel implements ActionListener {
 			case "Xóa":
 				Xoa();
 				break;
+			case "Sửa":
+				DKKS();
+				break;
+			case "Thoát":
+				lop.dispose();
+				break;
 			default:
 				break;
 			}
@@ -131,8 +150,6 @@ public class dieukhien extends JPanel implements ActionListener {
 	}
 
 	private void GanDL() {
-		tb.getTable().setEnabled(true);
-		tb.setOk(true);
 		int r = tb.getTable().getSelectedRow();
 		tt.txtMaLop.setText(tb.getTable().getValueAt(r, 0).toString());
 		tt.txtTenLop.setText(tb.getTable().getValueAt(r, 2).toString());
@@ -149,40 +166,55 @@ public class dieukhien extends JPanel implements ActionListener {
 	}
 
 	private void DKKBT() {
-//		tt.txtMaLop.setEditable(false);
-//		tt.txtTenLop.setEditable(false);
-//		tt.txtSiSo.setEditable(false);
 		tt.DKKBT();
+		tb.DKKBT();
 		btnLuu.setEnabled(false);
 		btnHuy.setEnabled(false);
+		btnThem.setEnabled(true);
+		btnSua.setEnabled(true);
+		btnXoa.setEnabled(true);
+		btnThoat.setEnabled(true);
 	}
 
 	private void DKKT() {
-		tt.txtMaLop.setText("");
-		tt.txtTenLop.setText("");
-		tt.txtSiSo.setText("");
-		tt.cboGiangVien.setSelectedIndex(0);
-		tb.getTable().setEnabled(false);
-		tb.setOk(false);
-		tt.txtMaLop.setEditable(true);
-		tt.txtTenLop.setEditable(true);
-		tt.txtSiSo.setEditable(true);
-		tt.cboGiangVien.setEnabled(true);
+		DKKS();
+		tt.DKKT();
+	}
+
+	private void DKKS() {
+		tb.DKKT();
+		tt.DKKS();
 		btnLuu.setEnabled(true);
 		btnHuy.setEnabled(true);
+		btnThem.setEnabled(false);
+		btnSua.setEnabled(false);
+		btnXoa.setEnabled(false);
+		btnThoat.setEnabled(false);
 	}
 
 	private void Luu() {
 		if (check()) {
+			int row = tb.getTable().getSelectedRow();
 			if (them) {
 				GiangVien gv = (GiangVien) tt.cboGiangVien.getSelectedItem();
-				Lop l = new Lop(tt.txtMaLop.getText(), gv.getMa(), tt.txtTenLop.getText(),
-						Integer.parseInt(tt.txtSiSo.getText()));
+				Lop l = new Lop(tt.txtMaLop.getText(), gv.getMa(), tt.txtTenLop.getText(), Integer.parseInt(tt.txtSiSo.getText()));
 				LopDAO ctrl = new LopDAO();
 				int r = ctrl.ThemLop(l);
 				LopSetTableModel model = new LopSetTableModel();
 				tb.getTable().setModel(model);
-				tb.getTable().changeSelection(0, 0, false, false);
+				tb.getTable().changeSelection(row, 0, false, false);
+				if (r == -1)
+					JOptionPane.showMessageDialog(null, "Lưu hong được", "Lỗi", JOptionPane.ERROR_MESSAGE);
+				else
+					JOptionPane.showMessageDialog(null, "Lưu rồi đó", "OK", JOptionPane.INFORMATION_MESSAGE);
+			}
+			else {
+				GiangVien gv = (GiangVien) tt.cboGiangVien.getSelectedItem();
+				Lop l = new Lop(tt.txtMaLop.getText(), gv.getMa(), tt.txtTenLop.getText(), Integer.parseInt(tt.txtSiSo.getText()));
+				LopDAO ctrl = new LopDAO();
+				int r = ctrl.SuaLop(l);
+				tb.getTable().setModel(new LopSetTableModel());
+				tb.getTable().changeSelection(row, 0, false, false);
 				if (r == -1)
 					JOptionPane.showMessageDialog(null, "Lưu hong được", "Lỗi", JOptionPane.ERROR_MESSAGE);
 				else
@@ -194,29 +226,49 @@ public class dieukhien extends JPanel implements ActionListener {
 	};
 
 	private void Xoa() {
-		GiangVien gv = (GiangVien) tt.cboGiangVien.getSelectedItem();
-		Lop l = new Lop(tt.txtMaLop.getText(), gv.getMa(), tt.txtTenLop.getText(),
-				Integer.parseInt(tt.txtSiSo.getText()));
-		LopDAO ctrl = new LopDAO();
-		int r = ctrl.XoaLop(l);
-		LopSetTableModel model = new LopSetTableModel();
-		tb.getTable().setModel(model);
-		tb.getTable().changeSelection(0, 0, false, false);
-		if (r == -1)
-			JOptionPane.showMessageDialog(null, "Xóa hong được", "Lỗi", JOptionPane.ERROR_MESSAGE);
-		else
-			JOptionPane.showMessageDialog(null, "Xóa rồi đó", "OK", JOptionPane.INFORMATION_MESSAGE);
+		int result = JOptionPane.showConfirmDialog(null, "Chắc chưa", "Hỏi cái coi", JOptionPane.YES_NO_OPTION,
+				JOptionPane.QUESTION_MESSAGE, null);
+		if (result == JOptionPane.YES_OPTION) {
+			GiangVien gv = (GiangVien) tt.cboGiangVien.getSelectedItem();
+			Lop l = new Lop(tt.txtMaLop.getText(), gv.getMa(), tt.txtTenLop.getText(),
+					Integer.parseInt(tt.txtSiSo.getText()));
+			LopDAO ctrl = new LopDAO();
+			int r = ctrl.XoaLop(l);
+			LopSetTableModel model = new LopSetTableModel();
+			tb.getTable().setModel(model);
+			tb.getTable().changeSelection(0, 0, false, false);
+			if (r == -1)
+				JOptionPane.showMessageDialog(null, "Xóa hong được", "Lỗi", JOptionPane.ERROR_MESSAGE);
+			else
+				JOptionPane.showMessageDialog(null, "Xóa rồi đó", "OK", JOptionPane.INFORMATION_MESSAGE);
 
+		}
+		else {
+			JOptionPane.showMessageDialog(null, "Liệu hồn m đó", "Nhắc nhở", JOptionPane.INFORMATION_MESSAGE);
+		}
 		DKKBT();
 		GanDL();
 	}
-
+	public static boolean isNumeric(String str) { 
+		  try {  
+		    Double.parseDouble(str);  
+		    return true;
+		  } catch(NumberFormatException e){  
+		    return false;  
+		  }  
+		}
 	private boolean check() {
 		if (tt.txtMaLop.getText().trim().isEmpty()) {
 			JOptionPane.showMessageDialog(null, "Nhập mã số cái coi", "Lỗi kìa má", JOptionPane.ERROR_MESSAGE);
 			return false;
 		} else if (tt.txtTenLop.getText().trim().isEmpty()) {
 			JOptionPane.showMessageDialog(null, "Nhập tên kìa mẹ", "Lỗi kìa má", JOptionPane.ERROR_MESSAGE);
+			return false;
+		} else if (tt.txtSiSo.getText().trim().isEmpty()) {
+			JOptionPane.showMessageDialog(null, "Ủa, lớp có mấy người?", "Lỗi kìa má", JOptionPane.ERROR_MESSAGE);
+			return false;
+		} else if(!isNumeric(tt.txtSiSo.getText())) {
+			JOptionPane.showMessageDialog(null, "Nhập số", "Lỗi kìa má", JOptionPane.ERROR_MESSAGE);
 			return false;
 		}
 		return true;

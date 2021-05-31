@@ -86,6 +86,19 @@ public class ThongTin extends JPanel implements ActionListener {
 		txtTenLop.setEditable(false);
 		txtSiSo.setEditable(false);
 	}
+	public void DKKT() {
+		DKKS();
+		txtMaLop.setEditable(true);
+		txtMaLop.setText("");
+		txtTenLop.setText("");
+		txtSiSo.setText("");
+		cboGiangVien.setSelectedIndex(0);
+	}
+	public void DKKS() {
+		txtTenLop.setEditable(true);
+		txtSiSo.setEditable(true);
+		cboGiangVien.setEnabled(true);
+	}
 	public void setup() {
 		 lblMaLop.setFont(new Font("Arial", Font.BOLD, 18));
 		 lblGiaoVien.setFont(new Font("Arial", Font.BOLD, 18));

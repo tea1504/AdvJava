@@ -1,6 +1,5 @@
 package advjava.view.lop;
 
-import java.awt.BorderLayout;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -118,6 +117,14 @@ public class Table extends JPanel {
 
 	public void setOk(boolean ok) {
 		this.ok = ok;
+	}
+	public void DKKT() {
+		table.setEnabled(false);
+		ok = false;
+	}
+	public void DKKBT() {
+		table.setEnabled(true);
+		ok = true;
 	}
 
 }
