@@ -2,6 +2,7 @@ package advjava.view;
 
 import java.awt.EventQueue;
 
+import advjava.DAO.LopDAO;
 import advjava.view.lop.LopGUI;
 
 public class main {
@@ -12,7 +13,7 @@ public class main {
 			
 			@Override
 			public void run() {
-				new App();
+				new loginGUI();
 			}
 		});
 	}
